@@ -4,40 +4,54 @@
 <title>Form Creator</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <!--Dependencies-->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<link rel="stylesheet" href="./assets/styles.css">
-<script src="https://kit.fontawesome.com/c1e7d71a3b.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-    integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
-    crossorigin="anonymous"></script>
-<script src="https://unpkg.com/vue@3.2.37/dist/vue.global.js"></script>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/styles.css">
+    <script src="https://kit.fontawesome.com/c1e7d71a3b.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue@3.2.37/dist/vue.global.js"></script>
+</head>
 
 <body>
     <div id="app">
         <div class="container">
 
-
             <h4 class="text-center p-3"> {{ appTitle }}</h4>
             <div class="row">
                 <div class="col-md-12">
                     <div id="form-preview">
-
+                        <question-list :questions="questions" v-show="questions.length" />
                     </div>
-                </div>
-                <div class="col-md-12">
                 </div>
             </div>
 
         </div>
-        <nav class="footerSection" :class="{active: renderPicker }">
+        <nav class="footer-section" :class="{active: renderPicker}">
             <div class="d-flex align-items-center justify-content-end form-action-container h-100">
                 <button class="form-action-button" v-show="!renderPicker" v-on:click="renderPicker = !renderPicker"
-                    id="addQuestionButton"><i class="fas fa-plus"></i> Add Question</button>
-                <button class="form-action-button" v-show="renderPicker" v-on:click="renderPicker = !renderPicker"
-                    id="closePicker"><i class="fas fa-times"></i> Close</button>
+                    id="add-question-button"><i class="fas fa-plus"></i> Add Question</button>
+                <button class="form-action-button" v-show="renderPicker" v-on:click="resetApp()" id="close-picker"><i
+                        class="fas fa-times"></i> Close</button>
             </div>
             <div v-show="renderPicker" id="form-picker">
+                <div id="type-picker" v-show="renderPicker && currentType === null" class="h-100 p-4">
+                    <div class="text-field-pick field-pick" v-on:click="currentType = 'text'">
+                        <i class="fa-solid fa-font fa-2x"></i>
+                        Text
+                    </div>
+                    <div class="select-field-pick field-pick" v-on:click="currentType = 'select'">
+                        <i class="fa-solid fa-square-caret-down fa-2x"></i>
+                        Select
+                    </div>
+                </div>
+                <div>
+                    <text-type v-if="currentType == 'text'" @question-submitted="addQuestion"></text-type>
+                    <select-type v-if="currentType == 'select'"  @question-submitted="addQuestion"></select-type>
+
+                </div>
 
             </div>
         </nav>
@@ -45,10 +59,12 @@
     </div>
 
     <script src="./main.js"></script>
+    <script src="./components/TextType.js"></script>
+    <script src="./components/SelectType.js"></script>
+    <script src="./components/QuestionList.js"></script>
 
     <script>
         const mountedApp = app.mount("#app");
-
     </script>
 
 </body>
