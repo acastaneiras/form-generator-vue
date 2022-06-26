@@ -37,9 +37,12 @@ body {
 
 #type-picker {
     display: grid;
-    grid-template-columns: repeat(3, 12px);
-    grid-template-rows: repeat(3, auto);
-    justify-content: space-evenly;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-gap: calc(1em * 1) calc(1em * 1.5);
+    grid-auto-flow: row dense;
+    justify-items: center;
+    max-width: 60%;
+    margin: auto;
 }
 
 #type-picker .field-pick {
@@ -64,10 +67,10 @@ body {
     background-color: white;
 }
 
-.form-generate-select .form-option .option-name {
+.form-generate .form-option .option-name {
     width: 93%
 }
 
-.form-generate-select .form-option .option-punctuation {
+.form-generate .form-option .option-punctuation {
     width: 5%
 }

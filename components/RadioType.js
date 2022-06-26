@@ -1,9 +1,9 @@
-app.component('select-type', {
+app.component('radio-type', {
     template:
         /*html*/
         `
         <div>
-            <form class="form-generate  form-generate-select p-4" @submit.prevent="onSubmit">
+            <form class="form-generate form-generate-radio p-4" @submit.prevent="onSubmit">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group m-4">
@@ -61,7 +61,7 @@ app.component('select-type', {
         onSubmit() {
             let question = {
                 name: this.name,
-                type: "select",
+                type: "radio",
                 hasPunctuation: this.hasPunctuation,
                 options: this.options
             };

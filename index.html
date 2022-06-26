@@ -46,10 +46,15 @@
                         <i class="fa-solid fa-square-caret-down fa-2x"></i>
                         Select
                     </div>
+                    <div class="select-field-pick field-pick" v-on:click="currentType = 'radio'">
+                        <i class="fa-solid fa-circle-dot fa-2x"></i>
+                        Radio
+                    </div>
                 </div>
                 <div>
                     <text-type v-if="currentType == 'text'" @question-submitted="addQuestion"></text-type>
                     <select-type v-if="currentType == 'select'"  @question-submitted="addQuestion"></select-type>
+                    <radio-type v-if="currentType == 'radio'"  @question-submitted="addQuestion"></select-type>
 
                 </div>
 
@@ -61,6 +66,7 @@
     <script src="./main.js"></script>
     <script src="./components/TextType.js"></script>
     <script src="./components/SelectType.js"></script>
+    <script src="./components/RadioType.js"></script>
     <script src="./components/QuestionList.js"></script>
 
     <script>

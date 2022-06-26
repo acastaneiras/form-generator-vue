@@ -4,7 +4,7 @@ const app = Vue.createApp({
             appTitle: 'Form Generator',
             renderPicker: false,
             currentType: null,
-            questions: [{name: "Testing", type: "text"}]
+            questions: [{name: "Question 1", type: "text"}]
         }
     },
     methods: {

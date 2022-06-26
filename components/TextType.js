@@ -1,8 +1,9 @@
 app.component('text-type', {
     template:
+    /*html*/
         `
         <div>
-            <form class="form-generate-text p-4" @submit.prevent="onSubmit">
+            <form class="form-generate  form-generate-text p-4" @submit.prevent="onSubmit">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group m-4">
