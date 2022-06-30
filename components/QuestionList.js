@@ -5,7 +5,7 @@ app.component('question-list', {
             required: true
         }
     },
-    template: 
+    template:
     /*html*/
     `
     <div>
@@ -23,7 +23,20 @@ app.component('question-list', {
                     </li>
                 </ul>
             </div>
+            <div>
+                <button class="btn btn-primary me-1" type="button" v-on:click="editQuestion(question, index)"><i class="fa-solid fa-edit"></i> Edit</button>
+                <button class="btn btn-danger" type="button" v-on:click="deleteQuestion(index)"><i class="fa-solid fa-trash"></i> Delete</button>
+            </div>
         </div>
     </div>
-    `
+    `,
+    methods: {
+        editQuestion(question, index) {
+            question.index = index;
+            this.$emit("edit-call", question);
+        },
+        deleteQuestion(index) {
+            this.$emit("delete-call", index);
+        }
+    }
 })

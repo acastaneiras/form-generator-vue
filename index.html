@@ -18,16 +18,14 @@
 <body>
     <div id="app">
         <div class="container">
-
             <h4 class="text-center p-3"> {{ appTitle }}</h4>
             <div class="row">
                 <div class="col-md-12">
                     <div id="form-preview">
-                        <question-list :questions="questions" v-show="questions.length" />
+                        <question-list :questions="questions" v-show="questions.length" @edit-call="editQuestion" @delete-call="deleteQuestion" />
                     </div>
                 </div>
             </div>
-
         </div>
         <nav class="footer-section" :class="{active: renderPicker}">
             <div class="d-flex align-items-center justify-content-end form-action-container h-100">
@@ -52,15 +50,12 @@
                     </div>
                 </div>
                 <div>
-                    <text-type v-if="currentType == 'text'" @question-submitted="addQuestion"></text-type>
-                    <select-type v-if="currentType == 'select'"  @question-submitted="addQuestion"></select-type>
-                    <radio-type v-if="currentType == 'radio'"  @question-submitted="addQuestion"></select-type>
-
+                    <text-type v-if="currentType == 'text'" :currentquestion="currentQuestion" @question-submitted="addQuestion"></text-type>
+                    <select-type v-if="currentType == 'select'" :currentquestion="currentQuestion" @question-submitted="addQuestion"></select-type>
+                    <radio-type v-if="currentType == 'radio'" :currentquestion="currentQuestion" @question-submitted="addQuestion"></select-type>
                 </div>
-
             </div>
         </nav>
-
     </div>
 
     <script src="./main.js"></script>
