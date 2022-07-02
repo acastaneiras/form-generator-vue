@@ -19,10 +19,11 @@
     <div id="app">
         <div class="container">
             <h4 class="text-center p-3"> {{ appTitle }}</h4>
+            <hr>
             <div class="row">
                 <div class="col-md-12">
                     <div id="form-preview">
-                        <question-list :questions="questions" v-show="questions.length" @edit-call="editQuestion" @delete-call="deleteQuestion" />
+                        <question-list :questions="questions" v-show="questions.length" @go-up-call="moveUp" @go-down-call="moveDown" @edit-call="editQuestion" @delete-call="deleteQuestion" />
                     </div>
                 </div>
             </div>

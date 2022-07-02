@@ -74,3 +74,12 @@ body {
 .form-generate .form-option .option-punctuation {
     width: 5%
 }
+
+#form-preview {
+    padding: 4% 0 8% 0;
+}
+
+.question-container {
+    width: 50%;
+    margin: auto;
+}
