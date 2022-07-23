@@ -51,9 +51,7 @@
                     </div>
                 </div>
                 <div>
-                    <text-type v-if="currentType == 'text'" :currentquestion="currentQuestion" @question-submitted="addQuestion"></text-type>
-                    <select-type v-if="currentType == 'select'" :currentquestion="currentQuestion" @question-submitted="addQuestion"></select-type>
-                    <radio-type v-if="currentType == 'radio'" :currentquestion="currentQuestion" @question-submitted="addQuestion"></select-type>
+                    <question-handler :currentquestion="currentQuestion" :question_type="currentType" @question-submitted="addQuestion"></question-handler>
                 </div>
             </div>
         </nav>
@@ -64,6 +62,7 @@
     <script src="./components/SelectType.js"></script>
     <script src="./components/RadioType.js"></script>
     <script src="./components/QuestionList.js"></script>
+    <script src="./components/QuestionHandler.js"></script>
 
     <script>
         const mountedApp = app.mount("#app");
