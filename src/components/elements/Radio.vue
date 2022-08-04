@@ -52,8 +52,12 @@ import { useGlobalStore } from '../../stores/store.js';
 const store = useGlobalStore();
 
 const addOption = () => {
+    if (typeof store.question.options == 'undefined') {
+        store.question.options = []
+    }
     store.question.options.push({ value: '', punctuation: 0.00 })
 }
+
 const removeOption = (index) => {
     store.question.options.splice(index, 1)
 }

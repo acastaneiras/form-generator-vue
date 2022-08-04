@@ -3,7 +3,7 @@
         class="overflow-y-auto h-full dark:text-gray-300 bg-slate-100 dark:bg-slate-800/50 border-l-2 border-slate-300 dark:border-slate-700">
         <form @submit.prevent="onSubmit">
             <div class="flex h-10 px-4 align-middle w-full m-auto">
-                <div v-if="currentType" class="flex justify-start">
+                <div v-if="currentType && store.currentIndex == null" class="flex justify-start">
                     <button @click="currentType = null"><i class="fa-solid fa-angle-left"></i> Back </button>
                 </div>
                 <div class="flex ml-auto justify-end">
@@ -90,14 +90,14 @@
             </div>
             <div v-show="currentType" class="absolute w-full bottom-0 left-0">
                 <button class="w-full h-10 bg-slate-300 dark:bg-slate-700">
-                    <i class="fas fa-plus"></i> Add question
+                    <div v-html="showActionButton"></div>
                 </button>
             </div>
         </form>
     </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useGlobalStore } from '../stores/store';
 import Text from "./elements/Text.vue";
 import Select from './elements/Select.vue';
@@ -107,6 +107,21 @@ const store = useGlobalStore();
 const currentType = ref(null);
 
 const emit = defineEmits(['picker_close'])
+
+store.$subscribe((mutation, state) => {
+    if (state.currentIndex !== null) currentType.value = state.question.type;
+    if (typeof state.question == 'undefined') {
+        store.question = {
+            type: state.currentIndex,
+            name: "",
+            isRequired: false,
+            hasPlaceholder: false,
+            placeholderText: "",
+            hasSubtitle: false,
+            subtitleText: ""
+        }
+    }
+})
 
 const setCurrentType = (type) => {
     currentType.value = type;
@@ -121,17 +136,13 @@ const setCurrentType = (type) => {
     }
 }
 
-const onSubmit = () => {
-    addQuestion(store.question);
-    closePicker();
-}
-const closePicker = () => {
-    currentType.value = null;
-    emit("picker_close");
-}
+const showActionButton = computed(() => {
+    if (store.currentIndex === null) return `<i class="fas fa-plus"></i> Add question`;
+    return `<i class="fas fa-edit"></i> Edit question`;;
+})
 
-const addQuestion = (question) => {
-    store.addQuestion(question);
+const resetQuestion = () => {
+    store.currentIndex = null;
     store.question = {
         type: null,
         name: "",
@@ -141,5 +152,29 @@ const addQuestion = (question) => {
         hasSubtitle: false,
         subtitleText: ""
     }
+}
+
+const onSubmit = () => {
+    if (store.currentIndex === null) {
+        addQuestion(store.question);
+    }
+    else {
+        editQuestion(store.question);
+    }
+    resetQuestion();
+    closePicker();
+}
+
+const editQuestion = (question) => {
+    store.editQuestion(question)
+}
+
+const addQuestion = (question) => {
+    store.addQuestion(question)
+}
+
+const closePicker = () => {
+    currentType.value = null;
+    emit("picker_close");
 }
 </script>

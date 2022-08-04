@@ -47,6 +47,11 @@ const darkMode = ref(false);
 const showPicker = ref(false);
 /* data end */
 
+store.$subscribe((mutation, state) => {
+  if (state.currentIndex !== null) showPicker.value = true;
+})
+
+
 const changeThemeMode = () => {
   if (document.querySelector('html').classList.contains('dark')) {
     document.querySelector('html').classList.remove('dark')

@@ -32,17 +32,22 @@ export const useGlobalStore = defineStore('store', {
                 hasSubtitle: false,
                 subtitleText: ""
             },
+            currentIndex: null
         }
     },
     actions: {
         setCurrentIndex(index) {
             this.currentIndex = index;
+            this.question = {...this.questions[index]};
         },
         addQuestion(question) {
             this.questions.push(question);
         },
+        editQuestion(question) {
+            this.questions[this.currentIndex] = question;
+        },
         deleteQuestion(index) {
-            this.questions.splice(index, 1)
+            this.questions.splice(index, 1);
         }
     }
 })

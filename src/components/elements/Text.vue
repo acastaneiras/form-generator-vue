@@ -16,6 +16,4 @@
 <script setup>
     import { useGlobalStore } from '../../stores/store.js';
     const store = useGlobalStore();
-
-    console.log(store.question)
 </script>
