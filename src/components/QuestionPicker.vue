@@ -155,6 +155,12 @@ const resetQuestion = () => {
 }
 
 const onSubmit = () => {
+    if (typeof store.question.options !== 'undefined') {
+        store.question.options.map((el) => {
+            el.label = el.value;
+            return el;
+        });
+    }
     if (store.currentIndex === null) {
         addQuestion(store.question);
     }

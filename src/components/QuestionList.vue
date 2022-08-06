@@ -15,10 +15,11 @@
                                     class="fas fa-trash"></i></button>
                         </div>
                     </h1>
-                    <div v-html="questionRender(question)">
-                    </div>
+                    <component 
+                    class="mb-1"
+                    :is="getComponentByType(question.type)"
+                    :currentQuestion="question"></component>
                     <div class="text-xs text-slate-500">{{ question.hasSubtitle ? question.subtitleText : '' }}</div>
-
                 </div>
             </div>
         </div>
@@ -34,10 +35,25 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useGlobalStore } from '../stores/store';
-const store = useGlobalStore();
+import TextElement from '../components/render/TextElement.vue'
+import RadioElement from './render/RadioElement.vue';
+import SelectElement from './render/SelectElement.vue';
 
+import { useGlobalStore } from '../stores/store';
+
+const store = useGlobalStore();
 const showActions = ref(false);
+
+const getComponentByType = (type) => {
+    switch (type) {
+        case "text":
+            return TextElement;
+        case "radio":
+            return RadioElement;
+        case "select":
+            return SelectElement
+    }
+}
 
 const required = (question) => {
     return question.isRequired ? '<span style="color:red">*</span>' : ''
@@ -46,8 +62,6 @@ const required = (question) => {
 const questionRender = (question) => {
     switch (question.type) {
         case "text":
-            return `
-                        <input disabled type="text" ${question.isRequired ? 'required' : ''} placeholder="${question.hasPlaceholder ? question.placeholderText : ''}" class="form-input-text mb-1">`
             break;
         case "select":
             let select_type = "<select class='form-input-select mb-1'>";

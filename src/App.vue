@@ -3,7 +3,7 @@ import Home from './components/Home.vue'
 </script>
 
 <template>
-  <Home title="Form generator"/>
+  <Home/>
 </template>
 
 <style scoped>

@@ -2,26 +2,27 @@ import {
     defineStore
 } from 'pinia';
 
-
 export const useGlobalStore = defineStore('store', {
     state: () => {
         return {
             questions: [{
+                "id": 1,
                 "type": "text",
                 "name": "Question 1",
                 "isRequired": true,
                 "hasPlaceholder": true,
                 "placeholderText": "Placeholder text",
                 "hasSubtitle": true,
-                "subtitleText": "Subtitle Instructions"
+                "subtitleText": "Subtitle Instructions",
             }, {
+                "id": 2,
                 "type": "text",
                 "name": "Question 2",
                 "isRequired": true,
                 "hasPlaceholder": true,
                 "placeholderText": "Placeholder text",
                 "hasSubtitle": true,
-                "subtitleText": "Subtitle Instructions"
+                "subtitleText": "Subtitle Instructions",
             }],
             question: {
                 type: null,
@@ -30,7 +31,7 @@ export const useGlobalStore = defineStore('store', {
                 hasPlaceholder: false,
                 placeholderText: "",
                 hasSubtitle: false,
-                subtitleText: ""
+                subtitleText: "",
             },
             currentIndex: null
         }
@@ -38,9 +39,14 @@ export const useGlobalStore = defineStore('store', {
     actions: {
         setCurrentIndex(index) {
             this.currentIndex = index;
+
             this.question = {...this.questions[index]};
+            if (typeof this.question.options !== 'undefined') {
+                this.question.options = [...this.question.options]
+            }
         },
         addQuestion(question) {
+            question.id = this.questions.length + 1;
             this.questions.push(question);
         },
         editQuestion(question) {
