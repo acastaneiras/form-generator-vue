@@ -38,6 +38,7 @@ import { ref } from 'vue';
 import TextElement from '../components/render/TextElement.vue'
 import RadioElement from './render/RadioElement.vue';
 import SelectElement from './render/SelectElement.vue';
+import NumberElement from './render/NumberElement.vue';
 
 import { useGlobalStore } from '../stores/store';
 
@@ -51,7 +52,9 @@ const getComponentByType = (type) => {
         case "radio":
             return RadioElement;
         case "select":
-            return SelectElement
+            return SelectElement;
+        case "number":
+            return NumberElement;
     }
 }
 

@@ -39,13 +39,22 @@
                             </div>
                         </label>
                     </li>
+                    <li>
+                        <label for="number-option" @click="setCurrentType('number')"
+                            class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                            <div class="flex w-full justify-center align-middle">
+                                <i class="fa-solid fa-arrow-down-1-9 fa-2x"></i>
+                                <div class="text-lg font-semibold ml-2">Number</div>
+                            </div>
+                        </label>
+                    </li>
                 </ul>
                 <component v-for="(questionType, index) in showComponents" :key="index"
                     :is="getComponentByType(questionType.name)">
                 </component>
                 <div id="question-options" v-show="currentType">
                     <div class="flex flex-col">
-                        <div class="w-full mb-6">
+                        <div class="w-full mb-6" v-show="typeOptions !== undefined && typeOptions.hasSubtitle">
                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> Subtitle
                             </label>
                             <label for="subtitle" class="inline-flex relative items-center cursor-pointer">
@@ -60,7 +69,7 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
                         </div>
-                        <div class="w-full mb-6">
+                        <div class="w-full mb-6" v-show="typeOptions !== undefined && typeOptions.hasPlaceholder">
                             <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"> Placeholder
                             </label>
                             <label for="placeholder" class="inline-flex relative items-center cursor-pointer">
@@ -102,13 +111,15 @@ import { useGlobalStore } from '../stores/store';
 import Text from "./elements/Text.vue";
 import Select from './elements/Select.vue';
 import Radio from './elements/Radio.vue';
+import Number from './elements/Number.vue';
 
 const store = useGlobalStore();
 const currentType = ref(null);
 const questionTypes = reactive([
-    { 'name': 'text' },
-    { 'name': 'select' },
-    { 'name': 'radio' },
+    { 'name': 'text', 'hasPlaceholder': true, 'hasSubtitle': true },
+    { 'name': 'select', 'hasPlaceholder': true, 'hasSubtitle': true },
+    { 'name': 'radio', 'hasPlaceholder': false, 'hasSubtitle': true },
+    { 'name': 'number', 'hasPlaceholder': false, 'hasSubtitle': true },
 ]);
 
 const emit = defineEmits(['picker_close'])
@@ -136,12 +147,10 @@ const getComponentByType = (type) => {
         case "radio":
             return Radio;
         case "select":
-            return Select
+            return Select;
+        case "number":
+            return Number;
     }
-}
-
-const isComponentVisible = (type) => {
-    return currentType === type;
 }
 
 const setCurrentType = (type) => {
@@ -160,13 +169,21 @@ const setCurrentType = (type) => {
 const showActionButton = computed(() => {
     if (store.currentIndex === null) return `<i class="fas fa-plus"></i> Add question`;
     return `<i class="fas fa-edit"></i> Edit question`;;
-})
+});
 
 const showComponents = computed(() => {
     return questionTypes.filter(function (questionType) {
         return questionType.name == currentType.value;
     })
 });
+
+const typeOptions = computed(() => {
+    return questionTypes.find(type => {
+        return type.name === currentType.value;
+    });
+});
+
+
 
 const resetQuestion = () => {
     store.currentIndex = null;
