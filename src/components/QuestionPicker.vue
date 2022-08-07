@@ -57,6 +57,34 @@
                             </div>
                         </label>
                     </li>
+                    <li>
+                        <label for="rating-option" @click="setCurrentType('rating')"
+                            class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                            <div class="flex w-full justify-center align-middle">
+                                <i class="fa-solid fa-star fa-2x"></i>
+                                <div class="text-lg font-semibold ml-2">Rating</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label for="date-option" @click="setCurrentType('date')"
+                            class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                            <div class="flex w-full justify-center align-middle">
+                                <i class="fa-solid fa-calendar-days fa-2x"></i>
+                                <div class="text-lg font-semibold ml-2">Date</div>
+                            </div>
+                        </label>
+                    </li>
+                    <li>
+                        <label for="time-option" @click="setCurrentType('time')"
+                            class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-white rounded-lg border-2 border-gray-200 cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
+                            <div class="flex w-full justify-center align-middle">
+                                <i class="fa-solid fa-clock fa-2x"></i>
+                                <div class="text-lg font-semibold ml-2">Time</div>
+                            </div>
+                        </label>
+                    </li>
+
                 </ul>
                 <component v-for="(questionType, index) in showComponents" :key="index"
                     :is="getComponentByType(questionType.name)">
@@ -122,6 +150,9 @@ import Select from './elements/Select.vue';
 import Radio from './elements/Radio.vue';
 import Number from './elements/Number.vue';
 import Checkbox from './elements/Checkbox.vue';
+import Rating from './elements/Rating.vue';
+import Time from './elements/Time.vue';
+import Date from './elements/Date.vue';
 
 const store = useGlobalStore();
 const currentType = ref(null);
@@ -131,6 +162,9 @@ const questionTypes = reactive([
     { 'name': 'radio', 'hasPlaceholder': false, 'hasSubtitle': true },
     { 'name': 'number', 'hasPlaceholder': false, 'hasSubtitle': true },
     { 'name': 'checkbox', 'hasPlaceholder': false, 'hasSubtitle': true },
+    { 'name': 'rating', 'hasPlaceholder': false, 'hasSubtitle': true },
+    { 'name': 'time', 'hasPlaceholder': true, 'hasSubtitle': true },
+    { 'name': 'date', 'hasPlaceholder': true, 'hasSubtitle': true },
 ]);
 
 const emit = defineEmits(['picker_close'])
@@ -163,6 +197,12 @@ const getComponentByType = (type) => {
             return Number;
         case "checkbox":
             return Checkbox;
+        case "rating":
+            return Rating;
+        case "time":
+            return Time;
+        case "date":
+            return Date;
     }
 }
 
@@ -196,8 +236,6 @@ const typeOptions = computed(() => {
         return type.name === currentType.value;
     });
 });
-
-
 
 const resetQuestion = () => {
     store.currentIndex = null;

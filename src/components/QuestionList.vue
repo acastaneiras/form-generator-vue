@@ -1,8 +1,8 @@
 <template>
     <div
         class="mx-4 mb-6 p-4 pb-10 flex flex-col-reverse items-start sm:p-10 sm:rounded-2xl xl:flex-row dark:bg-slate-800/50 drop-shadow-xl bg-slate-100 border-2 border-slate-300 dark:border-slate-700">
-        <div class="mx-auto w-2/3">
-            <div class="mb-6" v-show="store.questions.length" v-for="(question, index) in store.questions">
+        <div class="mx-auto w-2/3" v-show="store.questions.length">
+            <div class="mb-6"  v-for="(question, index) in store.questions">
                 <div @mouseover="showActions = index" @mouseleave="showActions = false">
                     <h1 class="items-center mb-1 py-2 h-10 dark:text-slate-300">{{ question.name }} <span class="inline"
                             v-html="required(question)"></span>
@@ -23,9 +23,7 @@
                 </div>
             </div>
         </div>
-
-
-        <div v-show="!store.questions.length" class="dark:text-gray-400">
+        <div v-show="!store.questions.length" class="dark:text-gray-400 text-left">
             There are no questions created yet.<br>
             <span class="text-sm">Create one by clicking on the <strong
                     class="text-xl justify-center align-middle">+</strong> sign.</span>
@@ -40,6 +38,9 @@ import RadioElement from './render/RadioElement.vue';
 import SelectElement from './render/SelectElement.vue';
 import NumberElement from './render/NumberElement.vue';
 import CheckboxElement from './render/CheckboxElement.vue';
+import RatingElement from './render/RatingElement.vue';
+import TimeElement from './render/TimeElement.vue';
+import DateElement from './render/DateElement.vue';
 
 import { useGlobalStore } from '../stores/store';
 
@@ -58,6 +59,12 @@ const getComponentByType = (type) => {
             return CheckboxElement;
         case "number":
             return NumberElement;
+        case "rating":
+            return RatingElement;
+        case "time":
+            return TimeElement;
+        case "date":
+            return DateElement;
     }
 }
 

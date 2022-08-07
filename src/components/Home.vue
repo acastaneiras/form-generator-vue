@@ -76,7 +76,8 @@ const lightThemeOverrides = {
 
 const darkThemeOverrides = {
   common: {
-    primaryColor: '#FF0000',
+    primaryColor: '#C4C4C4FF',
+    primaryColorHover: '#C4C4C4FF',
   }
 }
 </script>
