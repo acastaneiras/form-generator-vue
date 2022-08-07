@@ -40,9 +40,9 @@
                         </label>
                     </li>
                 </ul>
-                <Text v-if="currentType === 'text'"></Text>
-                <Select v-if="currentType === 'select'"></Select>
-                <Radio v-if="currentType === 'radio'"></Radio>
+                <component v-for="(questionType, index) in showComponents" :key="index"
+                    :is="getComponentByType(questionType.name)">
+                </component>
                 <div id="question-options" v-show="currentType">
                     <div class="flex flex-col">
                         <div class="w-full mb-6">
@@ -97,7 +97,7 @@
     </div>
 </template>
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import { useGlobalStore } from '../stores/store';
 import Text from "./elements/Text.vue";
 import Select from './elements/Select.vue';
@@ -105,6 +105,11 @@ import Radio from './elements/Radio.vue';
 
 const store = useGlobalStore();
 const currentType = ref(null);
+const questionTypes = reactive([
+    { 'name': 'text' },
+    { 'name': 'select' },
+    { 'name': 'radio' },
+]);
 
 const emit = defineEmits(['picker_close'])
 
@@ -123,6 +128,22 @@ store.$subscribe((mutation, state) => {
     }
 })
 
+
+const getComponentByType = (type) => {
+    switch (type) {
+        case "text":
+            return Text;
+        case "radio":
+            return Radio;
+        case "select":
+            return Select
+    }
+}
+
+const isComponentVisible = (type) => {
+    return currentType === type;
+}
+
 const setCurrentType = (type) => {
     currentType.value = type;
     store.question.type = type;
@@ -140,6 +161,12 @@ const showActionButton = computed(() => {
     if (store.currentIndex === null) return `<i class="fas fa-plus"></i> Add question`;
     return `<i class="fas fa-edit"></i> Edit question`;;
 })
+
+const showComponents = computed(() => {
+    return questionTypes.filter(function (questionType) {
+        return questionType.name == currentType.value;
+    })
+});
 
 const resetQuestion = () => {
     store.currentIndex = null;
