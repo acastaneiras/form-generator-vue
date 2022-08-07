@@ -39,6 +39,7 @@ import TextElement from '../components/render/TextElement.vue'
 import RadioElement from './render/RadioElement.vue';
 import SelectElement from './render/SelectElement.vue';
 import NumberElement from './render/NumberElement.vue';
+import CheckboxElement from './render/CheckboxElement.vue';
 
 import { useGlobalStore } from '../stores/store';
 
@@ -53,6 +54,8 @@ const getComponentByType = (type) => {
             return RadioElement;
         case "select":
             return SelectElement;
+        case "checkbox":
+            return CheckboxElement;
         case "number":
             return NumberElement;
     }
@@ -60,35 +63,6 @@ const getComponentByType = (type) => {
 
 const required = (question) => {
     return question.isRequired ? '<span style="color:red">*</span>' : ''
-}
-
-const questionRender = (question) => {
-    switch (question.type) {
-        case "text":
-            break;
-        case "select":
-            let select_type = "<select class='form-input-select mb-1'>";
-            question.options.forEach(option => {
-                select_type += `<option>${option.value}</option>`;
-            });
-            select_type += "</select>";
-
-            return select_type;
-            break;
-        case "radio":
-            let radio_type = `<div class="flex  items-center mb-4 w-full">`;
-            question.options.forEach(option => {
-                radio_type += `<div class="mr-3 items-center">
-                            <input class="form-input-check" type="radio" disabled>
-                            <label for="question-${question.index}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                            ${option.value}
-                            </label>
-                        </div>
-                      `;
-            });
-            radio_type += `</div>`
-            return radio_type;
-    }
 }
 
 const editQuestion = (index) => {
